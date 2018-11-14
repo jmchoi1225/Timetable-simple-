@@ -5,7 +5,11 @@ import './timetable.css';
 
 var idx = 0;
 
+var times = [];
+
 var weekday = ["월", "화", "수", "목", "금", "토", "일"];
+
+$("#timetable").append('<tr id = "week"></tr>');
 
 for (var i = 0; i < 7; i++) { // weekdays
     $('#week').append(`<th>${weekday[i]}</th>`);
