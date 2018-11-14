@@ -25,5 +25,8 @@
     "webpack": "1.13.2",
     "webpack-dashboard": "0.2.0",
     "webpack-dev-server": "1.16.2"
+  },
+  "dependencies": {
+    "npm": "^6.4.1"
   }
 }
