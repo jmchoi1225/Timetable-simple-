@@ -18,11 +18,11 @@ const options = {
 
 module.exports = {
   entry: {
-    app: PATHS.app
+    index: './src/index.js'
   },
   output: {
-    path: PATHS.build,
-    filename: 'bundle.[hash].js'
+    path: path.resolve(__dirname,'dist'),
+    filename: '[name].min.js'
   },
   devServer: {
       historyApiFallback: true,

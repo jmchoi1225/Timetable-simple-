@@ -5,6 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dashboard -- webpack-dev-server",
+    "server": "webpack-dev-server --open",
+    "watch": "webpack --progress --watch",
     "prebuild": "rimraf dist",
     "build": "webpack -p"
   },
@@ -27,6 +29,7 @@
     "webpack-dev-server": "1.16.2"
   },
   "dependencies": {
+    "jquery": "^3.3.1",
     "npm": "^6.4.1"
   }
 }
