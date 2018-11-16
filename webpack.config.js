@@ -13,22 +13,25 @@ const PATHS = {
 
 const options = {
   host:'localhost',
-  port:'1234'
+  port:'9000'
 };
 
 module.exports = {
+  mode: 'development',
   entry: {
     index: './src/index.js'
   },
   output: {
-    path: path.resolve(__dirname,'dist'),
+    path: path.join(__dirname,'dist'),
     filename: '[name].min.js'
   },
   devServer: {
-      historyApiFallback: true,
+      /*historyApiFallback: true,
       hot: true,
       inline: true,
-      stats: 'errors-only',
+      stats: 'errors-only',*/
+      contentBase: path.join(__dirname, './dist/'),
+      compress: true,
       host: options.host,
       port: options.port 
     },
@@ -45,7 +48,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loaders: ['style', 'css', 'postcss'],
+        loader: 'style-loader!css-loader',
         include:PATHS.app
       },
       
