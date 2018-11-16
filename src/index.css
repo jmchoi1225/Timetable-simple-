@@ -25,5 +25,13 @@
 }
 
 .halfblock{
-    width:20%;
+    width:40%;
+}
+
+.range{
+    width: 100px;
+}
+
+.time{
+    width: 20px;
 }

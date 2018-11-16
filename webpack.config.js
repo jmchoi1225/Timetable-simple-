@@ -26,10 +26,6 @@ module.exports = {
     filename: '[name].min.js'
   },
   devServer: {
-      /*historyApiFallback: true,
-      hot: true,
-      inline: true,
-      stats: 'errors-only',*/
       contentBase: path.join(__dirname, './dist/'),
       compress: true,
       host: options.host,
