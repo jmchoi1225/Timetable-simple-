@@ -4,34 +4,56 @@
     height: 20px;
 }
 
+.centerContent{
+    max-width:900px;
+    margin:auto;
+}
+
 #timetable{
     background-color:orange;
 }
 
+.deleteButton{
+    float:right;
+    margin-top:10px;
+}
+
+ul{
+    border: 1px solid black;
+    height : 200px;
+    width : 250px;
+    padding: 0 20px 10px 20px;
+    overflow: auto;
+    list-style-type:none;
+}
+
+li{
+    font-size: 15px;
+}
+
 #memberList{
     background-color:yellow;
-    height : 300px;
-    /*overflow: auto or scroll -> 사이즈 고정, 밑으로 스크롤하는 형식으로 하기*/
 }
 
 #conditionList{
     background-color:green;
-    height : 300px;
 }
 
 #recommendTime{
     background-color:blue;
-    height : 100px;
+    height : 50px;
 }
 
 .halfblock{
-    width:40%;
+    float:left;
+    margin:10px;
 }
 
 .range{
-    width: 100px;
+    width: 150px;
 }
 
 .time{
-    width: 20px;
+    width: 50px;
+    border: 1px solid black;
 }

@@ -5,27 +5,36 @@
         <meta charset = "UTF-8">
     </head>
     <body>
-        <div id = "titleBar"> <!-- title bar -->
+        <div id = "titleBar">
 
         </div>
-        <div> <!-- Need: timetable, member list, 조건 list, 추천 time -->
-            <span class = "halfblock"> <!-- timetable -->
+        <div class = "centerContent">
+            <span class = "halfblock">
                 <table id = "timetable">
                 </table>
             </span>
-            <span class = "halfblock"><!-- member list, 조건 list, 추천 time -->
-                <div> <!-- memberlist -->
-                    <ul id = "memberList">
-                    </ul>
-                </div>
-                <div> <!-- 조건 list -->
-                    <ul id = "conditionList">
-                    </ul>
-                </div>
-                <div id = "recommendTime"> <!-- 추천 time -->
-
-                </div>
+            <span class = "halfblock">
+                <button id="showTeamTimetable">팀 시간표 보기</button>
+                <ul id = "memberList">
+                    <button class = "deleteButton" id = "deleteMemberButton">멤버삭제</button>
+                    <h5>멤버 리스트</h5>                    
+                </ul>
+                <input id="addedMember" type = "text"></input>
+                <button id="addMemberButton">멤버추가</button>
+                <ul id = "conditionList"> <!-- 조건 list -->
+                    <button class = "deleteButton" id "deleteMemberButton">조건삭제</button>
+                    <h5>조건 리스트</h5>
+                </ul>
+                <select id="condition">
+                    <option value="memberNum">최소 인원수</option>
+                    <option value="mustMember">꼭 필요 멤버</option>
+                    <option value="timeRange">최소 만남 시간</option>
+                </select>
+                <button id="addConditionButton">조건추가</button>
+                <p id = "recommendTime"> <!-- 추천 time -->
+                </p>
             </span>
+            <!--<script src = "./index.min.js"></script> 이 부분 있으면 js가 두번 실행-->
         </div>
     </body>
 </html>
