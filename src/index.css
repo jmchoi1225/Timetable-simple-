@@ -1,16 +1,10 @@
-#titleBar{
-    background-color:red;
-    width : 100%;
-    height: 20px;
-}
-
 .centerContent{
     max-width:900px;
     margin:auto;
 }
 
 #timetable{
-    background-color:orange;
+    background-color:aliceblue;
 }
 
 .deleteButton{
@@ -29,18 +23,19 @@ ul{
 
 li{
     font-size: 15px;
+    cursor: pointer;
 }
 
 #memberList{
-    background-color:yellow;
+    background-color:aliceblue;
 }
 
 #conditionList{
-    background-color:green;
+    background-color:aliceblue;
 }
 
 #recommendTime{
-    background-color:blue;
+    background-color:aliceblue;
     height : 50px;
 }
 

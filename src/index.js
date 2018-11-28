@@ -9,7 +9,7 @@ let timetable = new Array(7);
 for(let i = 0; i<7; i++){ //making place to save the data of timetable
     timetable[i] = new Array(24);
     for (let j = 0; j<24; j++){
-        timetable[i][j] = new Array();
+        timetable[i][j] = [];
     }
 }
 
@@ -34,38 +34,72 @@ function drawTable(){//Drawing the timetable in the beginning FINISHED
 
     for (let i = 0; i < 7; i++) { //the actual table
         $('.block').append((e) => {
-            return `<td class = "time" data-time="${i.toString() + e.toString()}"></td>`;
+            return `<td class = "time" data-time="${i.toString() + e.toString()}"><span></span></td>`;
         });
     }
 }
 
-
-$('#showTeamTimetable').click(function(){ //show team timetable NOT TESTED
-    if(memberNumber>0){
-        console.log("in showing team timetable");
-        for(let i =0; i<7;i++){
-            for(let j=0; j<24;j++){
-                let color = (255*(1-(timetable[i][j].length/memberNumber)))>>0;
-                $("#timetable").find(`[data-time="${i.toString() + j.toString()}"]`)[0].setAttribute("style",`background-color:rgb(color,color,color)`);
-            }
-        }
+function TimetableColor(percent){ //Color of timetable depending on percentage of people unavailable FINISHED
+    if(percent == 1){
+        return "rgb(0,0,0)";
+    }else if (percent>0.9){
+        return "rgb(0,0,102)";
+    }else if (percent>0.8){
+        return "rgb(0,0,153)";
+    }else if (percent>0.7){
+        return "rgb(0,0,204)";
+    }else if (percent>0.6){
+        return "rgb(0,0,255)";
+    }else if (percent>0.5){
+        return "rgb(51,51,255)";
+    }else if (percent>0.4){
+        return "rgb(77,77,255)";
+    }else if (percent>0.3){
+        return "rgb(102,102,255)";
+    }else if (percent>0.2){
+        return "rgb(153,153,255)";
+    }else if (percent>0.1){
+        return "rgb(179,179,255)";
+    }else if (percent>0){
+        return "rgb(204,204,255)";
+    }else if (percent == 0){
+        return "aliceblue";
+    }else{
+        console.log("Invalid percent in TimetableColor");
+        return "red";
     }
-})
+}
 
-function showMemberTimetable(memID){ //FINISHED
-    timetableID = memID;
+function showMemberTimetable(memID){ //show member's timetable FINISHED
+    timetableID = parseInt(memID);
     const memberName = $("#memberList").find(`[data-memberID='${timetableID}']`)[0].innerText;
     $("#timetable").find("#timetableName")[0].innerText = `${memberName}의 시간표`; //`${memberName}의 시간표
     for(let i =0; i<7;i++){
         for(let j=0; j<24;j++){
             if(timetable[i][j].includes(timetableID)){
-                $("#timetable").find(`[data-time="${i.toString() + j.toString()}"]`).css("background-color","rgb(0,0,0)");
+                $("#timetable").find(`[data-time="${i.toString() + j.toString()}"]`).css("background-color",TimetableColor(1));
             }else{
-                $("#timetable").find(`[data-time="${i.toString() + j.toString()}"]`).css("background-color","rgb(255,255,255)");
+                $("#timetable").find(`[data-time="${i.toString() + j.toString()}"]`).css("background-color",TimetableColor(0));
             }
         }
     }
 }
+
+$('#showTeamTimetable').click(function(){ //show team timetable FINISHED
+    console.log(timetable); //testing
+    timetableID = -1;
+    $("#timetable").find("#timetableName")[0].innerText = `우리팀 시간표`;
+    if(memberNumber>0){
+        for(let i =0; i<7;i++){
+            for(let j=0; j<24;j++){
+                let percent = (timetable[i][j].length/memberNumber);
+                $("#timetable").find(`[data-time="${i.toString() + j.toString()}"]`)[0].setAttribute("style",`background-color:${TimetableColor(percent)}`);
+            }
+        }
+    }else{
+        console.log("There are no members");
+    }
+})
 
 function attachTableClickEvent(){ //to change member's timetable FINISHED
     $(".time").click((e) => {
@@ -79,10 +113,10 @@ function attachTableClickEvent(){ //to change member's timetable FINISHED
                 const idx  = timetable[day][time].indexOf(timetableID);
                 timetable[day][time].pop(idx); // 그 시간에서 timetableID 제거
             }
-            clickedElement.css('background-color', 'rgba(0, 0, 0, 0)'); // white
+            clickedElement.css('background-color', TimetableColor(0)); // white
         } else {
             timetable[day][time].push(timetableID);
-            clickedElement.css('background-color', 'rgba(0, 0, 0, 255)'); // black
+            clickedElement.css('background-color', TimetableColor(1)); // black
         }
     }
 })
@@ -93,11 +127,21 @@ function attachTableClickEvent(){ //to change member's timetable FINISHED
 $('#addMemberButton').click(function(){ //to add a new member FINISHED
     const memberName = document.getElementById("addedMember").value;
     document.getElementById("addedMember").value = "";
-    $('#memberList').append(`<li data-memberID ='${memberID}' data-memberName = '${memberName}'><input type="checkbox"></input>${memberName}</li>`);
+    $('#memberList').append(`<li class='member' data-memberID ='${memberID}' data-memberName = '${memberName}'><input type="checkbox"></input>${memberName}</li>`);
+    attachMemberClickEvent(memberID);
     showMemberTimetable(memberID);
     memberNumber++;
     memberID++;
 })
+
+function attachMemberClickEvent(memID){//when member clicked, show member's timetable FINISHED
+    const member= $("#memberList").find(`[data-memberID='${memID}']`);    
+    $(member).click((e) =>{
+        const mem = $(e.currentTarget);
+        const memID = mem.attr('data-memberID');
+        showMemberTimetable(memID);
+    })
+}
 
 $('#deleteMemberButton').click(function(){ // to delete a member FINISHED
     const memberList = $("#memberList").find("li");
