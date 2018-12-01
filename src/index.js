@@ -101,25 +101,63 @@ $('#showTeamTimetable').click(function(){ //show team timetable FINISHED
     }
 })
 
-function attachTableClickEvent(){ //to change member's timetable FINISHED
-    $(".time").click((e) => {
-    if(timetableID != -1){
-        const clickedElement = $(e.currentTarget);
-        const day = parseInt(clickedElement.attr('data-time')[0]);
-        const time = parseInt(clickedElement.attr('data-time').slice(1,3));
-
-        if (timetable[day][time].includes(timetableID)) {//chosen
-            if (timetable[day][time].indexOf(timetableID) >= 0) { // 클릭한 시간이 times에 존재할 경우
-                const idx  = timetable[day][time].indexOf(timetableID);
-                timetable[day][time].pop(idx); // 그 시간에서 timetableID 제거
+function attachTableClickEvent(){ //to change member's timetable by click and drag FINISHED
+    let day1,day2,time1,time2,include;
+    let flag = 0;
+    $(".time").mousedown((e) => {
+        if(timetableID != -1){
+            const clickedElement = $(e.currentTarget);
+            day1 = parseInt(clickedElement.attr('data-time')[0]);
+            time1 = parseInt(clickedElement.attr('data-time').slice(1,3));
+            console.log(day1, time1);
+            if (timetable[day1][time1].includes(timetableID)){
+                include = 1;
+            }else{
+                include = 0;
             }
-            clickedElement.css('background-color', TimetableColor(0)); // white
-        } else {
-            timetable[day][time].push(timetableID);
-            clickedElement.css('background-color', TimetableColor(1)); // black
+            flag = 1;
         }
-    }
-})
+    })
+    $(".time").mouseup((e) =>{
+        if (timetableID != -1){
+            const clickedElement = $(e.currentTarget);
+            day2 = parseInt(clickedElement.attr('data-time')[0]);
+            time2 = parseInt(clickedElement.attr('data-time').slice(1,3));
+            console.log(day2, time2);
+
+            if(flag == 1){
+                if(day1 >day2){
+                    let temp = day1;
+                    day1 = day2;
+                    day2 = temp;
+                }
+    
+                if(time1 >time2){
+                    let temp = time1;
+                    time1 = time2;
+                    time2 = temp;
+                }
+    
+                for(let day = day1; day<=day2; day++){
+                    for(let time = time1; time <=time2; time++){
+                        if (timetable[day][time].includes(timetableID) == include){ //need to change the status
+                            const block = $("#timetable").find(`[data-time="${day.toString() + time.toString()}"]`);
+                            if (timetable[day][time].includes(timetableID)) {//chosen
+                                if (timetable[day][time].indexOf(timetableID) >= 0) { // 클릭한 시간이 times에 존재할 경우
+                                    const idx  = timetable[day][time].indexOf(timetableID);
+                                    timetable[day][time].pop(idx); // 그 시간에서 timetableID 제거
+                                }
+                                block.css('background-color', TimetableColor(0)); // white
+                            } else {
+                                timetable[day][time].push(timetableID);
+                                block.css('background-color', TimetableColor(1)); // black
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
 }
 
 //memberList
