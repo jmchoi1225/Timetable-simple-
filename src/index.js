@@ -181,6 +181,31 @@ function attachMemberClickEvent(memID){//when member clicked, show member's time
     })
 }
 
+function attachShowUnavailableMembersEvent(){
+    let flag = 0;
+    $(".time").mouseover((e) =>{
+        if(timetableID == -1 && flag ==0){
+            const hoverElement = $(e.currentTarget);
+            const day = parseInt(hoverElement.attr('data-time')[0]);
+            const time = parseInt(hoverElement.attr('data-time').slice(1,3));
+            const memIDs = timetable[day][time];
+            for (let a in memIDs){
+                const memberName = $("#memberList").find(`[data-memberID='${a}']`)[0].innerText;
+                $("#unavailableMembers")[0].append(`${memberName} `);
+            }
+            $("#unavailableMembers")[0].append("is not available");
+            flag = 1;
+        }
+    })
+    $(".time").mouseout((e) =>{
+        if(timetableID==-1 && flag ==1){
+            $("#unavailableMembers")[0].innerText = "";
+            flag = 0;
+        }
+    })
+}
+
+
 $('#deleteMemberButton').click(function(){ // to delete a member FINISHED
     const memberList = $("#memberList").find("li");
     for(let i = memberNumber-1; i>=0; i--){
@@ -209,4 +234,5 @@ function deleteMemberfromTimetable(memID){//to delete deleted member's data on t
 $(document).ready(()=>{
     drawTable();
     attachTableClickEvent();
+    attachShowUnavailableMembersEvent();
 })
