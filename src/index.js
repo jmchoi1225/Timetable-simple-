@@ -85,7 +85,11 @@ function showMemberTimetable(memID){ //show member's timetable FINISHED
     }
 }
 
-$('#showTeamTimetable').click(function(){ //show team timetable FINISHED
+$('#showTeamTimetable').click(function(){ //when clicked, show team timetable FINISHED
+    showTeamTimetable();
+})
+
+function showTeamTimetable(){ //show team timetable FINISHED
     console.log(timetable); //testing
     timetableID = -1;
     $("#timetable").find("#timetableName")[0].innerText = `우리팀 시간표`;
@@ -97,9 +101,13 @@ $('#showTeamTimetable').click(function(){ //show team timetable FINISHED
             }
         }
     }else{
-        console.log("There are no members");
+        for(let i =0; i<7;i++){
+            for(let j=0; j<24;j++){
+                $("#timetable").find(`[data-time="${i.toString() + j.toString()}"]`)[0].setAttribute("style",`background-color:${TimetableColor(0)}`);
+            }
+        }
     }
-})
+}
 
 function attachTableClickEvent(){ //to change member's timetable by click and drag FINISHED
     let day1,day2,time1,time2,include;
@@ -181,7 +189,7 @@ function attachMemberClickEvent(memID){//when member clicked, show member's time
     })
 }
 
-function attachShowUnavailableMembersEvent(){
+function attachShowUnavailableMembersEvent(){ //show unavailable members in certain time period FINISHED
     let flag = 0;
     $(".time").mouseover((e) =>{
         if(timetableID == -1 && flag ==0){
@@ -189,12 +197,14 @@ function attachShowUnavailableMembersEvent(){
             const day = parseInt(hoverElement.attr('data-time')[0]);
             const time = parseInt(hoverElement.attr('data-time').slice(1,3));
             const memIDs = timetable[day][time];
-            for (let a in memIDs){
-                const memberName = $("#memberList").find(`[data-memberID='${a}']`)[0].innerText;
-                $("#unavailableMembers")[0].append(`${memberName} `);
+            if(memIDs.length >0){
+                for (let a in memIDs){
+                    const memberName = $("#memberList").find(`[data-memberID='${a}']`)[0].innerText;
+                    $("#unavailableMembers")[0].append(`${memberName} `);
+                }
+                $("#unavailableMembers")[0].append("is not available");
+                flag = 1;
             }
-            $("#unavailableMembers")[0].append("is not available");
-            flag = 1;
         }
     })
     $(".time").mouseout((e) =>{
@@ -216,6 +226,7 @@ $('#deleteMemberButton').click(function(){ // to delete a member FINISHED
             memberNumber--;
         }
     }
+    showTeamTimetable();
 })
 
 function deleteMemberfromTimetable(memID){//to delete deleted member's data on timetable FINISHED
